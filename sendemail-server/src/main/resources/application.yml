@@ -1,0 +1,38 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8763
+#spring:
+# application:
+#    name: sendemail-server
+#  mail:
+#    password: ****
+#    port: 465
+#    defaultEncoding: UTF-8
+#    host: smtp.qq.com
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          socketFactory:
+#            class: javax.net.ssl.SSLSocketFactory
+#        debug: true
+#    username: 1228493283@qq.com
+
+spring:
+  application:
+    name: sendemail-server
+  mail:
+    host: smtp.qq.com
+    username: 1228493283@qq.com
+    password: znaklhdnpgnpbabc
+    default-encoding: UTF-8
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory.class: javax.net.ssl.SSLSocketFactory
+        debug: true
