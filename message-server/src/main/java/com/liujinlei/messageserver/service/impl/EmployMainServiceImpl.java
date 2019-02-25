@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -117,9 +118,8 @@ public class EmployMainServiceImpl implements EmployMainService {
             File file = createExcel(list);
             System.out.println(file.getAbsolutePath());
             FileInputStream fileInput = new FileInputStream(file);
-            //MultipartFile toMultipartFile = new MockMultipartFile("file",file.getName(),"text/plain", IOUtils.toByteArray(fileInput));
-            //toMultipartFile.getInputStream();
-            schedualSendEmailService.sayHiFromClientOne(fileInput);
+           // MultipartFile multipartFile = new MockMultipartFile("temp.jpg","temp.jpg","", fileInput);
+            schedualSendEmailService.sayHiFromClientOne(file.getAbsolutePath());
             int o = 1;
         } catch (Exception e) {
             e.printStackTrace();

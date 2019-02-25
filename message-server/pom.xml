@@ -7,6 +7,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>message-server</name>
     <description>Demo project for Spring Boot</description>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>com.employmessage</groupId>
@@ -36,14 +37,11 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/springframework/spring-mock -->
         <dependency>
-            <groupId>springframework</groupId>
-            <artifactId>spring-mock</artifactId>
-            <version>1.2.5</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>RELEASE</version>
         </dependency>
-
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
