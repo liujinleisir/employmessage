@@ -11,5 +11,11 @@
         <module name="sendemail-server" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="employmessage" target="1.8" />
+      <module name="eurka-server" target="1.8" />
+      <module name="message-server" target="1.8" />
+      <module name="sendemail-server" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
