@@ -1,10 +1,11 @@
 package com.liujinlei.messageserver.controller;
 
 import com.liujinlei.messageserver.service.EmployMainService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * Title:
@@ -15,10 +16,10 @@ import javax.annotation.Resource;
  */
 @RestController
 public class EmployMainController {
-    @Resource
+    @Autowired
     private EmployMainService service;
-    @RequestMapping("/hi")
-    public void dealWork(){
-        service.dealWork();
+    @RequestMapping("/sendEmail")
+    public void dealWork(@RequestParam(value = "email") String email){
+        service.dealWork(email);
     }
 }

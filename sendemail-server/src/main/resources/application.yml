@@ -8,7 +8,7 @@ server:
 # application:
 #    name: sendemail-server
 #  mail:
-#    password: znaklhdnpgnpbabc
+#    password:
 #    port: 465
 #    defaultEncoding: UTF-8
 #    host: smtp.qq.com
@@ -27,7 +27,7 @@ spring:
   mail:
     host: smtp.qq.com
     username: 1228493283@qq.com
-    password: znaklhdnpgnpbabc
+    password: ***
     default-encoding: UTF-8
     port: 465
     properties:

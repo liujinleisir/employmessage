@@ -1,5 +1,7 @@
 package com.liujinlei.messageserver.service;
 
+import org.springframework.stereotype.Service;
+
 /**
  * Title:
  * Date: 2019/2/25
@@ -8,5 +10,5 @@ package com.liujinlei.messageserver.service;
  * @version 1.0
  */
 public interface EmployMainService {
-    void dealWork();
+    public void dealWork(String email);
 }

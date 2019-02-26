@@ -8,11 +8,11 @@
     <name>message-server</name>
     <description>Demo project for Spring Boot</description>
     <packaging>jar</packaging>
+
     <parent>
         <groupId>com.employmessage</groupId>
         <artifactId>employmessage</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <!--<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
     <dependencies>
         <!-- 生成excel表用jar包 -->
@@ -36,39 +36,24 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/springframework/spring-mock -->
-        <dependency>
-            <groupId>springframework</groupId>
-            <artifactId>spring-mock</artifactId>
-            <version>1.2.5</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.1.3.RELEASE</version>
-            <scope>compile</scope>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.3</version>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign.form</groupId>
             <artifactId>feign-form-spring</artifactId>
             <version>3.0.3</version>
         </dependency>
-
         <dependency>
-            <groupId>io.github.openfeign.form</groupId>
-            <artifactId>feign-form</artifactId>
-            <version>3.2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.3.3</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
     </dependencies>
 

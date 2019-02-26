@@ -8,11 +8,11 @@
     <name>sendemail-server</name>
     <description>Demo project for Spring Boot</description>
     <packaging>jar</packaging>
+
     <parent>
         <groupId>com.employmessage</groupId>
         <artifactId>employmessage</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <!--<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
     <dependencies>
         <dependency>
@@ -35,7 +35,6 @@
             <artifactId>commons-io</artifactId>
             <version>2.6</version>
         </dependency>
-
     </dependencies>
 
 
