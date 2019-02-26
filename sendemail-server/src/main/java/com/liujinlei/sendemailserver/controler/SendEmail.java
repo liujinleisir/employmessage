@@ -30,7 +30,7 @@ public class SendEmail {
             FileSystemResource file1 = new FileSystemResource(f);
             message.addAttachment(date+"Boss.xls", file1);
             message.setFrom("1228493283@qq.com");
-            String[] to = {"liujinlei_19921214@163.com","446052889@qq.com"};
+            String[] to = {"liujinlei_19921214@163.com"};
             message.setTo(to);
             message.setSubject(date+"Boss直聘java职位");
             message.setText("甭说废话了，看附件吧");
