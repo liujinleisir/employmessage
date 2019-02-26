@@ -2,14 +2,14 @@ package com.liujinlei.sendemailserver.controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 public class SendEmail {
@@ -21,18 +21,19 @@ public class SendEmail {
     public String sendEmail(@RequestParam("file") String file) {
         try {
             System.out.println(file);
-            System.out.println("测试成功");
-
             final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
             final MimeMessageHelper message = new MimeMessageHelper(mimeMessage,true,"UTF-8");
             File f = new File(file);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            String date = sdf.format(new Date());
             System.out.println(f.getName());
             FileSystemResource file1 = new FileSystemResource(f);
-            message.addAttachment(f.getName(), file1);
+            message.addAttachment(date+"Boss.xls", file1);
             message.setFrom("1228493283@qq.com");
-            message.setTo("liujinlei_19921214@163.com");
-            message.setSubject("测试邮件主题");
-            message.setText("测试邮件内容");
+            String[] to = {"liujinlei_19921214@163.com","446052889@qq.com"};
+            message.setTo(to);
+            message.setSubject(date+"Boss直聘java职位");
+            message.setText("甭说废话了，看附件吧");
 
 
             this.mailSender.send(mimeMessage);

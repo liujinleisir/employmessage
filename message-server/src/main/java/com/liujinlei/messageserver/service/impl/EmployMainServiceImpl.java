@@ -5,7 +5,9 @@ import com.liujinlei.messageserver.moudle.EmployMessage;
 import com.liujinlei.messageserver.service.EmployMainService;
 import com.liujinlei.messageserver.utils.Links;
 import com.liujinlei.messageserver.utils.RequestAndResponseTool;
+import org.apache.poi.common.usermodel.Hyperlink;
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.util.IOUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -38,7 +40,8 @@ public class EmployMainServiceImpl implements EmployMainService {
     @Override
     public void dealWork() {
         List<EmployMessage> list  = new ArrayList();
-        initCrawlerWithSeeds(new String[]{"https://www.zhipin.com/c101010100-p100101/e_104/?period=1&page=1&ka=page-1"});
+        //初始化url，可优化呢，代码重复，但是这里不做优化了
+        initCrawlerWithSeeds();
         //循环条件：待抓取的链接不空且抓取的网页不多于 1000
         while (!Links.unVisitedUrlQueueIsEmpty()  && Links.getVisitedUrlNum() <= 1000) {
             String visitUrl = (String) Links.removeHeadOfUnVisitedUrlQueue();
@@ -47,7 +50,7 @@ public class EmployMainServiceImpl implements EmployMainService {
             }
             Document document =  RequestAndResponseTool.sendRequst(visitUrl);
             Elements elements = document.getElementsByClass("job-primary");
-            System.out.println(elements);
+            System.out.println("待抓取的数量："+elements.size());
 
 
             for (Element e:
@@ -100,11 +103,11 @@ public class EmployMainServiceImpl implements EmployMainService {
                 String e2Str = e.getElementsByClass("info-primary").get(0)
                         .getElementsByClass("name").get(0)
                         .getElementsByTag("a").attr("href");
-                employMessage.setZhiweiXiangqing(e2Str);
+                employMessage.setZhiweiXiangqing("https://www.zhipin.com"+e2Str);
                 String e3Str = e.getElementsByClass("info-company").get(0)
                         .getElementsByClass("name").get(0)
                         .getElementsByTag("a").attr("href");
-                employMessage.setGongsixiangqing(e3Str);
+                employMessage.setGongsixiangqing("https://www.zhipin.com"+e3Str);
 
                 String e4Str = e.getElementsByClass("info-company").get(0)
                         .getElementsByClass("name").get(0)
@@ -115,12 +118,16 @@ public class EmployMainServiceImpl implements EmployMainService {
 
         }
         try {
-            File file = createExcel(list);
-            System.out.println(file.getAbsolutePath());
-            FileInputStream fileInput = new FileInputStream(file);
-           // MultipartFile multipartFile = new MockMultipartFile("temp.jpg","temp.jpg","", fileInput);
-            schedualSendEmailService.sayHiFromClientOne(file.getAbsolutePath());
-            int o = 1;
+            if(list.size() > 0){
+                File file = createExcel(list);
+                System.out.println(file.getAbsolutePath());
+                FileInputStream fileInput = new FileInputStream(file);
+                // MultipartFile multipartFile = new MockMultipartFile("temp.jpg","temp.jpg","", fileInput);
+                schedualSendEmailService.sayHiFromClientOne(file.getAbsolutePath());
+                //删除
+                //file.delete();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,9 +138,20 @@ public class EmployMainServiceImpl implements EmployMainService {
       * 创建时间：2019/2/25
       * 创建目的：【使用种子初始化 URL 队列】
       */
-    private void initCrawlerWithSeeds(String[] seeds) {
-        for (int i = 0; i < seeds.length; i++){
-            Links.addUnvisitedUrlQueue(seeds[i]);
+    private void initCrawlerWithSeeds() {
+        int i= 1;
+        while(true){
+            //就是为了判断有多少页
+            String url = "https://www.zhipin.com/c101010100-p100101/e_105/?period=1&page="+i+"&ka=page-"+i+"";
+            System.out.println(url);
+            Document document =  RequestAndResponseTool.sendRequst(url);
+            Elements elements = document.getElementsByClass("job-primary");
+            if(elements!= null && elements.size() >= 1){
+                Links.addUnvisitedUrlQueue(url);
+            }else{
+                break;
+            }
+            i++;
         }
     }
     /**
@@ -154,7 +172,12 @@ public class EmployMainServiceImpl implements EmployMainService {
             sheet.setDefaultColumnWidth((short) 15);
             // 生成一个样式
             HSSFCellStyle style = wb.createCellStyle();
-            style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            HSSFCellStyle style1 = wb.createCellStyle();
+            HSSFFont hlink_font = wb.createFont();
+            hlink_font.setUnderline(HSSFFont.U_SINGLE);
+            hlink_font.setColor(HSSFColor.BLUE.index);
+            style1.setFont(hlink_font);
+            style1.setAlignment(HSSFCellStyle.ALIGN_CENTER);
             sheet.setColumnWidth(0, 2600);
             sheet.setColumnWidth(1, 2600*2);
             sheet.setColumnWidth(2, 2600*2);
@@ -261,13 +284,31 @@ public class EmployMainServiceImpl implements EmployMainService {
 
                 cell = row.createCell(11);
                 cell.setCellValue(zhiweiXiangqing);
-                cell.setCellStyle(style);
+                if(i != 0){
+                    HSSFHyperlink hssfHyperlink = new HSSFHyperlink(HSSFHyperlink.LINK_URL);
+                    hssfHyperlink.setAddress(zhiweiXiangqing);
+                    cell.setHyperlink(hssfHyperlink);
+                    cell.setCellStyle(style1);
+
+                }else{
+                    cell.setCellStyle(style);
+
+                }
 
                 cell = row.createCell(12);
                 cell.setCellValue(gongsixiangqing);
-                cell.setCellStyle(style);
+                if(i != 0){
+                    HSSFHyperlink link2 = new HSSFHyperlink(HSSFHyperlink.LINK_URL);
+                    cell.setCellStyle(style1);
+                    link2.setAddress(gongsixiangqing);
+                    cell.setHyperlink(link2);
+                }else{
+                    cell.setCellStyle(style);
+                }
+
+
             }
-            file = File.createTempFile(date+"_Boss直聘java行业职位清单",".xls");
+            file = File.createTempFile(date+"_BossZP清单",".xls");
             fos = new FileOutputStream(file);
             wb.write(fos);
 
