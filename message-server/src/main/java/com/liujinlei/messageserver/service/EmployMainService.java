@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 public interface EmployMainService {
-    public void dealWork(String email);
+    public void dealWork(String[] email);
 }

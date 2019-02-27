@@ -19,5 +19,5 @@ import java.io.FileInputStream;
 @FeignClient(value = "sendemail-server", configuration = MultipartSupportConfig.class)
 public interface SchedualSendEmailService {
     @RequestMapping(value = "/sendEmail" ,consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    String sendEmail(@RequestPart(value = "file") MultipartFile file,@RequestParam(value = "email") String email);
+    String sendEmail(@RequestPart(value = "file") MultipartFile file,@RequestParam(value = "email") String[] email);
 }

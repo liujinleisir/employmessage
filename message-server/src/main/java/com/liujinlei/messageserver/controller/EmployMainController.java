@@ -19,7 +19,18 @@ public class EmployMainController {
     @Autowired
     private EmployMainService service;
     @RequestMapping("/sendEmail")
-    public void dealWork(@RequestParam(value = "email") String email){
-        service.dealWork(email);
+    public String  dealWork(@RequestParam(value = "email") String email){
+        try{
+            String regex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+            boolean isEmail =  email.matches(regex);
+            if(isEmail){
+                service.dealWork(new String[]{email});
+            }else{
+                return "失败 : 邮箱格式不正确";
+            }
+        }catch(Exception e){
+            return "失败"+e;
+        }
+        return "成功";
     }
 }

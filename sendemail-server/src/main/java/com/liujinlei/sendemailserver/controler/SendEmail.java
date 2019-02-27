@@ -22,7 +22,7 @@ public class SendEmail {
     private JavaMailSender mailSender;
 
     @RequestMapping(value = "/sendEmail", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String sendEmail(@RequestPart(value = "file") MultipartFile file,@RequestParam(value = "email") String email) {
+    public String sendEmail(@RequestPart(value = "file") MultipartFile file,@RequestParam(value = "email") String[] email) {
         try {
             System.out.println(email+"   成功!!!!!!!!!!!!!!!!!!");
             final MimeMessage mimeMessage = this.mailSender.createMimeMessage();

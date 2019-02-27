@@ -38,7 +38,7 @@ public class EmployMainServiceImpl implements EmployMainService {
     private SchedualSendEmailService schedualSendEmailService;
 
     @Override
-    public void dealWork(String email) {
+    public void dealWork(String[] email) {
         List<EmployMessage> list  = new ArrayList();
         //初始化url，可优化呢，代码重复，但是这里不做优化了
         initCrawlerWithSeeds();
@@ -123,8 +123,9 @@ public class EmployMainServiceImpl implements EmployMainService {
                 System.out.println(file.getAbsolutePath());
                 FileInputStream fileInput = new FileInputStream(file);
                 MultipartFile multi = new MockMultipartFile("file", fileInput);
-                schedualSendEmailService.sendEmail(multi,email);                //删除
-                //file.delete();
+                schedualSendEmailService.sendEmail(multi,email);
+                //删除
+                file.delete();
             }
 
         } catch (Exception e) {
@@ -138,14 +139,21 @@ public class EmployMainServiceImpl implements EmployMainService {
       * 创建目的：【使用种子初始化 URL 队列】
       */
     private void initCrawlerWithSeeds() {
+        //1-3年
+        addURL("e_104");
+        //3-5年
+        addURL("e_105");
+    }
+    private void addURL(String type){
         int i= 1;
         while(true){
+            //3-5年的
             //就是为了判断有多少页
-            String url = "https://www.zhipin.com/c101010100-p100101/e_105/?period=1&page="+i+"&ka=page-"+i+"";
-            System.out.println(url);
+            String url = "https://www.zhipin.com/c101010100-p100101/"+type+"/?period=1&page="+i+"&ka=page-"+i+"";
             Document document =  RequestAndResponseTool.sendRequst(url);
             Elements elements = document.getElementsByClass("job-primary");
             if(elements!= null && elements.size() >= 1){
+                System.out.println(url);
                 Links.addUnvisitedUrlQueue(url);
             }else{
                 break;
